@@ -5,10 +5,10 @@ class PNet(nn.Module):
     def __init__(self):
         super(PNet, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.Conv2d(3,10,(3,3),1,1), #N 10 12 12
+            nn.Conv2d(3,10,(3,3),1),
             nn.BatchNorm2d(10),
             nn.PReLU(),
-            nn.MaxPool2d(3,2),#N 10 5 5
+            nn.MaxPool2d(2,2),#N 10 5 5
         )
         self.conv2 = nn.Sequential(
             nn.Conv2d(10, 16,(3,3), 1), #N 16 3 3
@@ -35,16 +35,16 @@ class RNet(nn.Module):
     def __init__(self):
         super(RNet, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.Conv2d(3, 28, (3,3), 1,1),#N 28 48 48
+            nn.Conv2d(3, 28, (3,3), 1),#N 28 48 48
             nn.BatchNorm2d(28),
             nn.PReLU(),
-            nn.MaxPool2d(3, 2 ),#N 28 11 11
+            nn.MaxPool2d(3, 2 ,1),#N 28 11 11
         )
         self.conv2 = nn.Sequential(
             nn.Conv2d(28, 48, (3,3), 1),#N 48 9 9
             nn.BatchNorm2d(48),
             nn.PReLU(),
-            nn.MaxPool2d(3,2),#N 48 4 4
+            nn.MaxPool2d(3,2,0),#N 48 4 4
         )
         self.conv3 = nn.Sequential(
             nn.Conv2d(48, 64, (2,2), 1), #N 64 3 3
@@ -71,16 +71,16 @@ class ONet(nn.Module):
     def __init__(self):
         super(ONet, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.Conv2d(3, 32,(3,3), 1 ,1),#N 32 48 48
+            nn.Conv2d(3, 32,(3,3), 1 ),#N 32 48 48
             nn.BatchNorm2d(32),
             nn.PReLU(),
-            nn.MaxPool2d(3, 2),#N 32 23 23
+            nn.MaxPool2d(3, 2, 1),#N 32 23 23
         )
         self.conv2 = nn.Sequential(
             nn.Conv2d(32, 64, (3,3), 1),#N 64 21 21
             nn.BatchNorm2d(64),
             nn.PReLU(),
-            nn.MaxPool2d(2, 2),#N 64 10 10
+            nn.MaxPool2d(3, 2),#N 64 10 10
         )
         self.conv3 = nn.Sequential(
             nn.Conv2d(64, 64,(3,3), 1),#N 64 8 8
