@@ -2,7 +2,7 @@ import torch
 from PIL import Image
 from PIL import ImageDraw
 import numpy as np
-import Net_Model,tool
+import nets,tool
 from torchvision import transforms
 import time
 import cv2
@@ -15,9 +15,9 @@ class Detector:
 
         self.isCuda = isCuda
 
-        self.pnet = Net_Model.PNet()
-        self.rnet = Net_Model.RNet()
-        self.onet = Net_Model.ONet()
+        self.pnet = nets.PNet()
+        self.rnet = nets.RNet()
+        self.onet = nets.ONet()
 
         if self.isCuda:
             self.pnet.cuda()
@@ -80,7 +80,7 @@ class Detector:
             cls, offset = _cls[0][0].cpu().data, _offset[0].cpu().data
             idxs = torch.nonzero(torch.gt(cls, 0.6),as_tuple=False)
             boxes = self.__box(idxs, offset, cls[idxs[:, 0], idxs[:, 1]], scale)
-            scale *= 0.709
+            scale *= 0.6
             _w = int(w * scale)
             _h = int(h * scale)
             img = img.resize((_w, _h))
